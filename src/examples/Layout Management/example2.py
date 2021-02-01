@@ -19,17 +19,30 @@ class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
-        self. setWindowTitle("My awesome app")
+        self.setWindowTitle("My awesome app")
 
-        # layout = QVBoxLayout() # Vertical Layout
-        layout = QHBoxLayout() # Horizontal Layout
+        layout1 = QHBoxLayout()
+        layout2 = QVBoxLayout()
+        layout3 = QVBoxLayout()
 
-        layout.addWidget(Color('red'))
-        layout.addWidget(Color('green'))
-        layout.addWidget(Color('blue'))
+        layout2.addWidget(Color('red'))
+        layout2.addWidget(Color('yellow'))
+        layout2.addWidget(Color('purple'))
+
+        layout1.addLayout( layout2 )
+
+        layout1.addWidget(Color('green'))
+
+        layout3.addWidget(Color('red'))
+        layout3.addWidget(Color('purple'))
+
+        layout1.addLayout( layout3 )
+
+        layout1.setContentsMargins(0,0,0,0)
+        layout1.setSpacing(0)
 
         widget = QWidget()
-        widget.setLayout(layout)
+        widget.setLayout(layout1)
         self.setCentralWidget(widget)
 
 
