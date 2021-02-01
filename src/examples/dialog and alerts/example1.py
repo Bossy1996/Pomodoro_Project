@@ -1,16 +1,32 @@
-import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
+import sys
 
-# Subclass QMainWindow to customise your application's main window
+class CustomDialog(QDialog):
+
+    def __init__(self, *args, **kwargs):
+        super(CustomDialog, self).__init__(*args, **kwargs)
+
+        self.setWindowTitle("Custom dialog")
+
+        buttons = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+
+        self.buttonBox = QDialogButtonBox(buttons)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(self.buttonBox)
+        self.setLayout(self.layout)
 
 class MainWindow(QMainWindow):
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
-        self.setWindowTitle("My second try on PyQt5")
+        self.setWindowTitle("this is the main window")
 
         label = QLabel("This is a PyQt5 window!")
 
@@ -32,12 +48,15 @@ class MainWindow(QMainWindow):
 
         self.setStatusBar(QStatusBar(self))
 
+
     def onMyToolBarButtonClick(self, s):
         print("click", s)
 
-        dlg = QDialog(self)
-        dlg.setWindowTitle("hello")
-        dlg.exec_()
+        dlg = CustomDialog(self)
+        if dlg.exec_():
+            print("Success")
+        else:
+            print("Cancel")
 
 
 app = QApplication(sys.argv)
