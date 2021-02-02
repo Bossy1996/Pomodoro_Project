@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 
-# Subclass QMainWindow to customise your application's main window
+# Subclass QMainWindow to customise your application's main buttons
 
 class MainWindow(QMainWindow):
 
@@ -12,14 +12,14 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("My second try on PyQt5")
 
-        label = QLabel("This is a PyQt5 window!")
+        label = QLabel("This is a PyQt5 buttons!")
 
         # The 'Qt' name space has a lot of attributes to customise
         # widgets. See: http://doc.qt.io/qt-5/qt.html
         label.setAlignment(Qt.AlignCenter)
 
-        # Set the central widget of the window. Widget will expand
-        # to take up all the space in the window by default
+        # Set the central widget of the buttons. Widget will expand
+        # to take up all the space in the buttons by default
         self.setCentralWidget(label)
 
         toolbar = QToolBar("My main toolbar")

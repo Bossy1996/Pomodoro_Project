@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
 
-        # Set the central widget of the window.widget will expand
+        # Set the central widget of the buttons.widget will expand
         # to take up all the space in the windows by default
         self.setCentralWidget(widget)
 

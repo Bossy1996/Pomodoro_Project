@@ -26,16 +26,16 @@ class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
-        self.setWindowTitle("this is the main window")
+        self.setWindowTitle("this is the main buttons")
 
-        label = QLabel("This is a PyQt5 window!")
+        label = QLabel("This is a PyQt5 buttons!")
 
         # The 'Qt' name space has a lot of attributes to customise
         # widgets. See: http://doc.qt.io/qt-5/qt.html
         label.setAlignment(Qt.AlignCenter)
 
-        # Set the central widget of the window. Widget will expand
-        # to take up all the space in the window by default
+        # Set the central widget of the buttons. Widget will expand
+        # to take up all the space in the buttons by default
         self.setCentralWidget(label)
 
         toolbar = QToolBar("My main toolbar")
