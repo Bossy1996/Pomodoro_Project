@@ -3,39 +3,47 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 import sys
-import time
 
-class StackedExample(QMainWindow):
+class Color(QWidget):
 
-    def __init__(self):
-        QMainWindow.__init__(self)
-        self.leftlist = QListWidget()
-        self.leftlist.insertItem(0, 'Contact' )
-        self.leftlist.insertItem(1, 'Personal' )
+    def __init__(self, color, *args, **kwargs):
+        super(Color, self).__init__(*args, **kwargs)
+        self.setAutoFillBackground(True)
 
-        self.central_widget = QWidget()               # define central widget
-        self.setCentralWidget(self.central_widget)    # set QMainWindow.centralWidget
+        palette = self.palette()
+        palette.setColor(QPalette.Window, QColor(color))
+        self.setPalette(palette)
 
-        self.stack1 = QWidget()
-        self.stack2 = QWidget()
+class MainWindow(QMainWindow):
 
-        self.stack1UI()
-        self.stack2UI()
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
 
-        self.Stack = QStackedWidget (self)
-        self.Stack.addWidget (self.stack1)
-        self.Stack.addWidget (self.stack2)
-        grid = QGridLayout()
-        self.centralWidget().setLayout(grid)          # add the layout to the central widget
-        grid.addWidget(self.leftlist,0,0)
-        grid.addWidget(self.Stack,0,1)
+        self.setWindowTitle("My Awesome App")
 
-        #self.leftlist.currentRowChanged.connect(self.display)
-        self.resize(300,100)
-        self.show()
+        pagelayout = QVBoxLayout()
+        button_layout = QHBoxLayout()
+        layout = QStackedLayout()
 
-app = QApplication(sys.argv)
+        pagelayout.addLayout(button_layout)
+        pagelayout.addLayout(layout)
 
-window = StackedExample()
+        for n, color in enumerate(['red','green','blue','yellow']):
+            btn = QPushButton( str(color) )
+            btn.pressed.connect( lambda n=n: layout.setCurrentIndex(n) )
+            button_layout.addWidget(btn)
+            layout.addWidget(Color(color))
 
-app.exec()
+        widget = QWidget()
+        widget.setLayout(pagelayout)
+        self.setCentralWidget(widget)
+
+
+App = QApplication(sys.argv)
+
+# create the instance of our Window
+window = MainWindow()
+window.show()
+
+# start the app
+sys.exit(App.exec())
