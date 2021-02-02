@@ -14,7 +14,7 @@ class MainWindow(QMainWindow):
         # like Pomodoro (working time) short-break (short rest) and long break (long rest)
         self.pomodoroCount = 0
         # Time counter
-        self.count = 0
+        self.count = 0  # Seconds
         # Boolean that control if the timer has started or not
         self.start = False
 
@@ -37,6 +37,7 @@ class MainWindow(QMainWindow):
         self.place_holder.setFixedSize(QSize(125, 80))
         start_button = QPushButton("Start")
         settings_button = QPushButton("Settings")
+        settings_button.setEnabled(False)
         grid_layout.addWidget(pomodoro_button, 0, 0)
         grid_layout.addWidget(short_break_button, 0, 1)
         grid_layout.addWidget(long_break_button, 0, 2)
@@ -66,15 +67,15 @@ class MainWindow(QMainWindow):
         print(self.start)
 
     def pomodoro(self):
-        # TODO: write the logic behind the pomodoro technique
 
-        self.count = 25
+        # sets the default time in Pomodoro
+        self.count = 1500
 
     def short_break(self):
-        self.count = 5
+        self.count = 300
 
     def long_break(self):
-        self.count = 15
+        self.count = 900
 
     def settings(self):
         # TODO: write the pomodoro configuration options
@@ -82,7 +83,7 @@ class MainWindow(QMainWindow):
 
     def show_time(self):
 
-        mins, secs = divmod(self.count, 60) # TODO: It's shows only the seconds it should calculate mins and secs
+        mins, secs = divmod(self.count, 60)
 
         # getting the text from the count
         time_format = '{:02d}:{:02d}'.format(mins, secs)
@@ -93,15 +94,10 @@ class MainWindow(QMainWindow):
             self.count -= 1
             time.sleep(1)
 
-            # showing text
-            # self.place_holder.setText(time_format)
+            if self.count == 0:
+                self.start = False
 
         self.place_holder.setText(time_format)
-
-        # when the time reaches 0 the working time ends and it adds a pomodoro count + 1
-        if self.count == 0:
-            self.start = False
-            self.pomodoroCount += 1
 
 
 # TODO: Info button that shows you in the browser what is the Pomodoro technique MAYBE!!!
