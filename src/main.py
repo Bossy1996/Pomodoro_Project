@@ -30,54 +30,81 @@ class MainWindow(QMainWindow):
         pomodoro_button = QPushButton("Pomodoro")
         short_break_button = QPushButton("Short Break")
         long_break_button = QPushButton("Long Break")
-        place_holder = QLabel("Place Holder")
-        place_holder.setStyleSheet("border: 3px solid black")
-        place_holder.setFont(QFont("Times", 15))
+        self.place_holder = QLabel("Place Holder")
+        self.place_holder.setStyleSheet("border: 3px solid black")
+        self.place_holder.setFont(QFont("Times", 15))
+        self.place_holder.setAlignment(Qt.AlignCenter)
+        self.place_holder.setFixedSize(QSize(125, 80))
         start_button = QPushButton("Start")
         settings_button = QPushButton("Settings")
         grid_layout.addWidget(pomodoro_button, 0, 0)
         grid_layout.addWidget(short_break_button, 0, 1)
         grid_layout.addWidget(long_break_button, 0, 2)
-        grid_layout.addWidget(place_holder, 1, 1)
+        grid_layout.addWidget(self.place_holder, 1, 1)
         grid_layout.addWidget(start_button, 2, 1)
         grid_layout.addWidget(settings_button, 3, 1)
         self.centralWidget.setLayout(grid_layout)
+
+        # buttons functionality
+        pomodoro_button.clicked.connect(self.pomodoro)
+        short_break_button.clicked.connect(self.short_break)
+        long_break_button.clicked.connect(self.long_break)
+        start_button.clicked.connect(self.start_pomodoro)
+        settings_button.clicked.connect(self.settings)
+
+        # the timer thing
+        timer = QTimer(self)
+        timer.timeout.connect(self.show_time)
+        timer.start(100)
+
         # shows all the widgets
         self.show()
 
     def start_pomodoro(self):
-        pass
         # # we set tha flag to true
-        # self.start = True
-        #
-        # # if the count reaches to 0 we set it to false
-        # if self.count == 0:
-        #     self.start = False
+        self.start = True
+        print(self.start)
 
     def pomodoro(self):
         # TODO: write the logic behind the pomodoro technique
-        pass
+
+        self.count = 25
 
     def short_break(self):
-        pass
+        self.count = 5
 
     def long_break(self):
-        pass
+        self.count = 15
 
     def settings(self):
         # TODO: write the pomodoro configuration options
         pass
 
-    @staticmethod
-    def countdown(t):
-        # TODO: write the count down method
-        mins, secs = divmod(t, 60)
-        timeformat = '{:02d}:{:02d}'.format(mins, secs)
-        time.sleep(1)
-        t -= 1
+    def show_time(self):
+
+        mins, secs = divmod(self.count, 60) # TODO: It's shows only the seconds it should calculate mins and secs
+
+        # getting the text from the count
+        time_format = '{:02d}:{:02d}'.format(mins, secs)
+
+        # checking if the flag is true
+        if self.start:
+            # increment the counter
+            self.count -= 1
+            time.sleep(1)
+
+            # showing text
+            # self.place_holder.setText(time_format)
+
+        self.place_holder.setText(time_format)
+
+        # when the time reaches 0 the working time ends and it adds a pomodoro count + 1
+        if self.count == 0:
+            self.start = False
+            self.pomodoroCount += 1
 
 
-# TODO: Info button that shows you in the browser what is the Pomodoro technique
+# TODO: Info button that shows you in the browser what is the Pomodoro technique MAYBE!!!
 
 
 # You need one (and only one) QApplication instance per application
@@ -86,7 +113,7 @@ class MainWindow(QMainWindow):
 app = QApplication(sys.argv)
 
 window = MainWindow()
-window.show()  # IMPORTANT !!! Windows are hidden by default.
+# window.show()  # IMPORTANT !!! Windows are hidden by default.
 
 # Start the event loop.
 app.exec()
